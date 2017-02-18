@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script src="catalog.js"></script>
+        <script src="testData.js"></script>
+        <script>
+            var objectList = [
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlEltern',
+                    persons: [{
+                        firstname: "Reinhard",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Andrea",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlDominik',
+                    persons: [{
+                        firstname: "Dominik",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Eva",
+                        lastname: "Steiner",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HacklEltern',
+                    persons: [{
+                        firstname: "Josef",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Ursula",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HacklStefanie',
+                    persons: [{
+                        firstname: "Stefanie",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Andreas",
+                        lastname: "Draxler",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Jan",
+                        lastname: "´Draxler",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KalcherGrosseltern',
+                    persons: [{
+                        firstname: "Johann",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Theresia",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Engelbert",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KadletzGrosseltern',
+                    persons: [{
+                        firstname: "Melanie",
+                        lastname: "Kadletz",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Peter",
+                        lastname: "Kandler",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HacklGrosseltern',
+                    persons: [{
+                        firstname: "Josef",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Aloisia",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KalcherThomas',
+                    persons: [{
+                        firstname: "Thomas",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Sandra",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Florian",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Nadine",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KalcherJohannes',
+                    persons: [{
+                        firstname: "Jonannes",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Renate",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Helene",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Jakob",
+                        lastname: "Kalcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlHelmut',
+                    persons: [{
+                        firstname: "Helmut",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Traudi",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Maria",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlKurt',
+                    persons: [{
+                        firstname: "Kurt",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Christa",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlIngrid',
+                    persons: [{
+                        firstname: "Ingrid",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Partner",
+                        lastname: "Partner",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlChristi',
+                    persons: [{
+                        firstname: "Josef",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Christi",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HacklMartin',
+                    persons: [{
+                        firstname: "Martin",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Doris",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Alexander",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Regina",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Sebastian",
+                        lastname: "Hackl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KadletzPeter',
+                    persons: [{
+                        firstname: "Peter",
+                        lastname: "Kadletz",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'KadletzKlaus',
+                    persons: [{
+                        firstname: "Klaus",
+                        lastname: "Kadletz",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlUrsula',
+                    persons: [{
+                        firstname: "Ursula",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Markus",
+                        lastname: "Hofmarcher",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Laura",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Vincent",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlGeorg',
+                    persons: [{
+                        firstname: "Georg",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Monika",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Sophie",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Emma",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlChristoph',
+                    persons: [{
+                        firstname: "Christoph",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Marion",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Lorenz",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Kind",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlCarina',
+                    persons: [{
+                        firstname: "Carina",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Benjamin",
+                        lastname: "Wald",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'BartunekRonald',
+                    persons: [{
+                        firstname: "Ronald",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Karin",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Lisa",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Oliver",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'BartunekMartin',
+                    persons: [{
+                        firstname: "Martin",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Jenny",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Leonie",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Amelie",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'BartunekAnna',
+                    persons: [{
+                        firstname: "Anna",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Michael",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: [{
+                        firstname: "Sarah",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Victor",
+                        lastname: "Bartunek",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }]
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlMichael',
+                    persons: [{
+                        firstname: "Michael",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Barbara",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                },
+                {
+                    accessKey: 'ABC123',
+                    name: 'HandlKatarina',
+                    persons: [{
+                        firstname: "Karina",
+                        lastname: "Handl",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    },{
+                        firstname: "Martin",
+                        lastname: "Nachname",
+                        attending: null,
+                        arrival: null,
+                        vegetarian: null
+                    }],
+                    children: []
+                }
+            ]
+
+            console.log("init catalog")
+            var cat = new Catalog(testData)
+
+            console.log("result", cat.get({
+                age: function(age){ return age > 40 }
+            })
+            )
+
+            /*
+            console.log("result", cat.get({
+                age: function (age) {
+                    return age > 20
+                }
+            }))
+            */
+
+            /*
+            cat.remove({
+                age: function (age) {
+                    return age > 40
+                }
+            })
+            */
+        </script>
+    </body>
+</html>

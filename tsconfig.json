@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outFile": "dist/ndxr.js",
+    "sourceMap": true
+  },
+  "include": [
+    "ndxr.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
