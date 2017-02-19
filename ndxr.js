@@ -1,39 +1,82 @@
-interface IIndex {
-    [objectPath: string]: {
-        [value: string]: number[]
-    }
-}
-
-interface IReverseIndex {
-    [objectId: number]: {
-        source: any
-        paths: {
-            [path: string]: any
-        }
-    }
-}
-
 class Catalog {
-    private separator: string
-    private index: IIndex
-    private reverseIndex: IReverseIndex
-
     constructor(initialData){
         this.separator = "<$>"
         this.index = {}
         this.reverseIndex = {}
 
-        if(Array.isArray(initialData)){
-            initialData.forEach(item => {
+        this.add(initialData)
+    }
+
+    // public API
+    get(getter){
+        switch(typeof getter){
+            case 'number':
+                return Catalog.cloneDeep(this.reverseIndex[getter].source)
+            case 'object':
+                return Catalog.mapIdsToSources(Catalog.query(getter, this.index, this.separator), this.reverseIndex)
+        }
+    }
+
+    // public API
+    add(data){
+        if(Array.isArray(data)){
+            data.forEach(item => {
                 this.addItemToIndex(Catalog.cloneDeep(item))
             })
         }
         else{
-            this.addItemToIndex(Catalog.cloneDeep(initialData))
+            this.addItemToIndex(Catalog.cloneDeep(data))
         }
     }
 
-    private addItemToIndex(item) {
+    remove(removeObject){
+        if(typeof removeObject == "object"){
+            if(Array.isArray(removeObject)){
+                removeObject.forEach(obj => {
+                    this.remove(obj)
+                })
+            }
+            else{
+                let idsToRemove = Catalog.query(removeObject, this.index, this.separator)
+                idsToRemove.forEach(id => {
+                    this.remove(id)
+                })
+            }
+        }
+        else{
+            let obj = this.reverseIndex[removeObject]
+            let pathsObject = obj.paths
+            let paths = Object.keys(pathsObject)
+
+            let matchedPaths = []
+            paths.forEach(path => {
+                let value = this.reverseIndex[removeObject].paths[path]
+                if(Array.isArray(value)){
+                    value.forEach(val => {
+                        let matchedPath = path.split(this.separator)
+                        matchedPath.push(val)
+                        matchedPaths.push(matchedPath)
+                    })
+                }
+                else{
+                    let matchedPath = path.split(this.separator)
+                    matchedPath.push(value)
+                    matchedPaths.push(matchedPath)
+                }
+            })
+
+            matchedPaths.forEach(fullPath => {
+                let path = fullPath.slice(0, fullPath.length-1).join(this.separator)
+                let value = fullPath[fullPath.length - 1]
+                let ids = this.index[path][value]
+                this.index[path][value] = ids.filter(id => id != removeObject)
+            })
+
+            delete(this.reverseIndex[removeObject])
+        }
+    }
+
+    addItemToIndex(item) {
         let objectPaths = Catalog.getPathValue(item)
         let itemId = Object.keys(this.reverseIndex).length
 
@@ -84,7 +127,7 @@ class Catalog {
         }
     }
 
-    private static getPathValue(keyValue) {
+    static getPathValue(keyValue) {
         if (keyValue && typeof keyValue == "object") {
             if(Array.isArray(keyValue)){
                 let returnFinal = []
@@ -123,78 +166,22 @@ class Catalog {
         }
     }
 
-    public remove(removeObject){
-        if(typeof removeObject == "object"){
-            if(Array.isArray(removeObject)){
-                removeObject.forEach(obj => {
-                    this.remove(obj)
-                })
-            }
-            else{
-                let idsToRemove = this.query(removeObject)
-                idsToRemove.forEach(id => {
-                    this.remove(id)
-                })
-            }
-        }
-        else{
-            let obj = this.reverseIndex[removeObject]
-            let pathsObject = obj.paths
-            let paths = Object.keys(pathsObject)
-
-            let matchedPaths = []
-            paths.forEach(path => {
-                let value = this.reverseIndex[removeObject].paths[path]
-                if(Array.isArray(value)){
-                    value.forEach(val => {
-                        let matchedPath = path.split(this.separator)
-                        matchedPath.push(val)
-                        matchedPaths.push(matchedPath)
-                    })
-                }
-                else{
-                    let matchedPath = path.split(this.separator)
-                    matchedPath.push(value)
-                    matchedPaths.push(matchedPath)
-                }
-            })
-
-            matchedPaths.forEach(fullPath => {
-                let path = fullPath.slice(0, fullPath.length-1).join(this.separator)
-                let value = fullPath[fullPath.length - 1]
-                let ids: number[] = this.index[path][value]
-                this.index[path][value] = ids.filter(id => id != removeObject)
-            })
-
-            delete(this.reverseIndex[removeObject])
-        }
-    }
-
-    public get(getter: any){
-        switch(typeof getter){
-            case 'number':
-                return Catalog.cloneDeep(this.reverseIndex[getter].source)
-            case 'object':
-                return this.mapIdsToSources(this.query(getter))
-        }
-    }
-
-    private query(queryObject: any){
+    static query(queryObject, index, separator){
         let objectPaths = Catalog.getPathValue(queryObject)
         let matchedPathIds = {}
 
         objectPaths.forEach(path => {
             // match paths with index and store value in itemIds
-            let queryPath = path.slice(0, path.length - 1).join(this.separator)
+            let queryPath = path.slice(0, path.length - 1).join(separator)
             let queryValue = path[path.length-1]
             let ids = []
 
             if(typeof queryValue == "function"){
-                if(this.index[queryPath]){
-                    let values = Object.keys(this.index[queryPath])
+                if(index[queryPath]){
+                    let values = Object.keys(index[queryPath])
                     values.forEach(value => {
                         if(queryValue(value)){
-                            let matchedIds = this.index[queryPath][value]
+                            let matchedIds = index[queryPath][value]
                             matchedIds.forEach(id => {
                                 Catalog.addUniqueValueToArray(ids, id)
                             })
@@ -203,7 +190,7 @@ class Catalog {
                 }
             }
             else{
-                ids = this.index[queryPath][queryValue]
+                ids = index[queryPath][queryValue]
             }
 
             if(!matchedPathIds[queryPath]){
@@ -239,19 +226,19 @@ class Catalog {
         }
     }
 
-    private mapIdsToSources(ids){
+    static mapIdsToSources(ids, reverseIndex){
         return ids.map(id => {
-            let obj = Catalog.cloneDeep(this.reverseIndex[id].source)
+            let obj = Catalog.cloneDeep(reverseIndex[id].source)
             obj.catalogId = id
             return obj
         })
     }
 
-    private static cloneDeep(obj){
+    static cloneDeep(obj){
         return JSON.parse(JSON.stringify(obj))
     }
 
-    private static addUniqueValueToArray(dest, value){
+    static addUniqueValueToArray(dest, value){
         if(dest.indexOf(value) < 0){
             dest.push(value)
         }

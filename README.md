@@ -44,6 +44,7 @@ If you pass an object the catalog will search for matching objects in the index.
 If you pass a number you will receive the object with the given catalog id.
 
 Imagine we have already indexed this data:
+```Javascript
 [
     {
         name: "Alex",
@@ -76,28 +77,35 @@ Imagine we have already indexed this data:
     },
     ...
 ]
+```
 
 Now we can make a query on that data like:
+```Javascript
 catalog.get({
     name: "Alex"
 })
+```
 
 This will simply give you the first Object.
 
 Lets search for object with contain Canon cameras
+```Javascript
 catalog.get({
     cameras: {
         brand: "Canon"
     }
 })
+```
 
 This will give you Alex and Tom.
 
 What if we want all males that have an age above 30:
+```Javascript
 catalog.get({
     gender: "male",
     age: function(value){ return value > 30 }
 })
+```
 
 This will give you Tom.
 
