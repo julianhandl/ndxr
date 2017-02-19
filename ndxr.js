@@ -244,3 +244,5 @@ class Catalog {
         }
     }
 }
+
+module.exports = Catalog
