@@ -4,6 +4,12 @@ class LinkedCatalog{
     constructor(ndxrInstance){
         this.ndxrInstance = ndxrInstance
     }
+
+    /*
+        res = .get(x) performs a query on the index and returns the results
+        x = int || [int]
+        res = [{}] || null
+    */
     get(getter){
         return Catalog.get(getter, this.ndxrInstance)
     }
@@ -34,7 +40,7 @@ class Catalog{
                         let result = this.get(getterItem, ndxrInstance)
                         if(result) matchingItems.push(result)
                     })
-                    return matchingItems.length > 0 ? matchingItems : undefined
+                    return matchingItems.length > 0 ? matchingItems : null
                 }
                 else{
                     return Catalog.mapIdsToSources(Catalog.query(getter, ndxrInstance.index, ndxrInstance.separator), ndxrInstance.reverseIndex)

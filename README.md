@@ -8,10 +8,12 @@ It's lightning fast and can be queried really easy.
 ## Install
 
 ### npm
-```npm install ndxr```
+```Javascript
+npm install ndxr
+```
 
 ### file download
-Just use the ndxr.js from the dist folder of this project
+Just use the ```ndxr.js``` from the dist folder of this project
 
 ## Usage
 
