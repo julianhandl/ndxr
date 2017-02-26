@@ -1,5 +1,7 @@
 # NDXR - Indexer/Catalog
 
+[![Build Status](https://travis-ci.org/julianhandl/ndxr.svg?branch=master)](https://travis-ci.org/julianhandl/ndxr)
+
 NDXR is an easy to use javascript indexer/catalog for the front- and backend.
 It's lightning fast and can be queried really easy.
 
