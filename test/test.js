@@ -20,11 +20,11 @@ describe('Catalog', function () {
         describe('#get({})', function() {
             it('should return undefined when the value is empty', function() {
                 var result = cat.get({})
-                assert.equal(undefined, result)
+                assert.equal(null, result)
             })
             it('should return undefined when the value is not matching', function() {
                 var result = cat.get({firstname: 'Tamara'})
-                assert.equal(undefined, result)
+                assert.equal(null, result)
             })
             it('should return array of 1 object when one entry matches', function() {
                 var result = cat.get({firstname: 'Alex'})
@@ -69,7 +69,7 @@ describe('Catalog', function () {
         describe('#get([int])', function() {
             it('should return undefined when the value is empty', function() {
                 var result = cat.get([])
-                assert.equal(undefined, result)
+                assert.equal(null, result)
             })
             it('should return array of objects with the matching id', function() {
                 var result = cat.get([0,1])
@@ -80,7 +80,7 @@ describe('Catalog', function () {
         describe('#get(int)', function() {
             it('should return undefined when the value is empty', function() {
                 var result = cat.get()
-                assert.equal(undefined, result)
+                assert.equal(null, result)
             })
             it('should return an object with the matching id', function() {
                 var result = cat.get(0)
@@ -88,7 +88,7 @@ describe('Catalog', function () {
             })
             it('should return undefined when the id is not matching', function() {
                 var result = cat.get(-100)
-                assert.equal(undefined, result)
+                assert.equal(null, result)
             })
         })
     })

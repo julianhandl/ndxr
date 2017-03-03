@@ -7,23 +7,30 @@ class Ndxr {
         this.add(initialData)
     }
 
-    // public API
+    /*
+        .add(x) adds data to the index which gets indexed
+        x = {} || [{}]
+    */
     add(data){
         if(data){
             if(Array.isArray(data)){
                 data.forEach(item => {
-                    this.addItemToIndex(Ndxr.cloneDeep(item))
+                    Ndxr.addItemToIndex(Ndxr.cloneDeep(item), this.index, this.reverseIndex, this.separator)
                 })
             }
             else{
-                this.addItemToIndex(Ndxr.cloneDeep(data))
+                Ndxr.addItemToIndex(Ndxr.cloneDeep(data), this.index, this.reverseIndex, this.separator)
             }
         }
         else{
-            console.warn("No object to add provided")
+            console.warn(".add(x) x must be object or array of objects")
         }
     }
 
+    /*
+        .remove(x) removes data from the index
+        x = int || [int]
+    */
     remove(removeObject){
         if(removeObject){
             if(typeof removeObject == "object"){
@@ -72,29 +79,29 @@ class Ndxr {
             }
         }
         else{
-            console.warn("No object to remove provided")
+            console.warn(".remove(x) x must be integer or array of integers")
         }
     }
 
-    addItemToIndex(item) {
+    static addItemToIndex(item, index, reverseIndex, separator) {
         let objectPaths = Ndxr.getPathValue(item)
-        let itemId = Object.keys(this.reverseIndex).length
+        let itemId = Object.keys(reverseIndex).length
 
         // add item to index
         objectPaths.forEach(item => {
-            let path = item.slice(0, item.length - 1).join(this.separator)
+            let path = item.slice(0, item.length - 1).join(separator)
             let value = item[item.length-1]
 
-            if(this.index[path]){
-                if(this.index[path][value]){
-                    this.index[path][value].push(itemId)
+            if(index[path]){
+                if(index[path][value]){
+                    index[path][value].push(itemId)
                 }
                 else{
-                    this.index[path][value] = [itemId]
+                    index[path][value] = [itemId]
                 }
             }
             else{
-                this.index[path] = {
+                index[path] = {
                     [value]: [itemId]
                 }
             }
@@ -103,7 +110,7 @@ class Ndxr {
         // add item to reverseIndex
         let pathsObject = {}
         objectPaths.forEach(item => {
-            let path = item.slice(0, item.length - 1).join(this.separator)
+            let path = item.slice(0, item.length - 1).join(separator)
             let value = item[item.length-1]
             if(value){
                 if(pathsObject[path]){
@@ -121,7 +128,7 @@ class Ndxr {
                 }
             }
         })
-        this.reverseIndex[itemId] = {
+        reverseIndex[itemId] = {
             source: item,
             paths: pathsObject
         }
