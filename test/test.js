@@ -2,9 +2,11 @@ var assert = require('assert')
 var testData = require('./testData')
 var Ndxr = require('../src/ndxr')
 var Catalog = require('../src/catalog')
+//var Provider = require('../src/provider')
 
 var index = new Ndxr(testData)
 var cat = Catalog.buildCatalog(index)
+//var provider = Provider.buildProvider(index)
 
 describe('Catalog', function () {
     describe('#buildCatalog()', function () {
@@ -20,7 +22,7 @@ describe('Catalog', function () {
                 var result = cat.get({})
                 assert.equal(undefined, result)
             })
-            it('should return undefined when the value is not matchig', function() {
+            it('should return undefined when the value is not matching', function() {
                 var result = cat.get({firstname: 'Tamara'})
                 assert.equal(undefined, result)
             })
@@ -29,6 +31,24 @@ describe('Catalog', function () {
                 assert.equal(1, result.length)
                 assert.equal(true, Array.isArray(result))
                 assert.equal("Alex", result[0].firstname)
+            })
+            it('should return array of 2 object when two entries match', function() {
+                var result = cat.get({firstname: ['Alex','Thomas']})
+                assert.equal(2, result.length)
+                assert.equal(true, Array.isArray(result))
+                assert.equal("Alex", result[0].firstname)
+                assert.equal("Thomas", result[1].firstname)
+            })
+            it('should return array of 3 object when two entries match', function() {
+                var result = cat.get({
+                    firstname: ['Alex','Thomas','Markus'],
+                    cars: { brand: ['Volkswagen','Renault','Peugeot']}
+                })
+                assert.equal(3, result.length)
+                assert.equal(true, Array.isArray(result))
+                assert.equal("Alex", result[0].firstname)
+                assert.equal("Thomas", result[1].firstname)
+                assert.equal("Markus", result[2].firstname)
             })
             it('should return array of 1 object when one child-object matches', function() {
                 var result = cat.get({cars: {brand: 'Audi'}})
@@ -73,6 +93,36 @@ describe('Catalog', function () {
         })
     })
 })
+
+/*
+describe('Provider', function () {
+    describe('#buildProvider()', function () {
+        describe('#buildProvider(ndxrInstance)', function () {
+            it('should return a LinkedProvider', function () {
+                assert("LinkedProvider", Provider.buildProvider({}).constructor.name)
+            })
+        })
+    })
+    describe('#get()', function() {
+        describe('#get({})', function() {
+            it('should return undefined when the value is empty', function() {
+                assert.equal(undefined, provider.get())
+                assert.equal(undefined, provider.get({}))
+            })
+            it('should return undefined when the value is not matching', function() {
+                var result = provider.get({ name: true })
+                assert.equal(undefined, result)
+            })
+            it('should return array of 1 object when one entry matches', function() {
+                var result = provider.get({ firstname: true })
+                assert.equal(3, result.length)
+                assert.equal(true, Array.isArray(result))
+                assert.equal("Alex", result[0].firstname)
+            })
+        })
+    })
+})
+*/
 
 describe('Ndxr', function() {
 

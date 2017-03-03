@@ -1,7 +1,8 @@
 # NDXR - Indexer/Catalog
 
-NDXR is an easy to use javascript indexer/catalog for the front- and backend.
-It's lightning fast and can be queried really easy.
+NDXR is a modular Indexer that can be queried really easy and fast.
+This package contains multiple tools that are described below.
+First we start with the installation.
 
 ## Install
 
@@ -9,105 +10,210 @@ It's lightning fast and can be queried really easy.
 ```npm install ndxr```
 
 ### file download
-Just use the ndxr.js from the dist folder of this project
+Just use the dist folder of this project
+
+## Modules
+
+### NDXR
+This is the heart of this package. The index holds all your data and
+provides it to the other modules. You can only ```add``` and ```remove```
+data to your index.
+Learn how to use it in the ```Usage``` section.
+
+### Catalog
+The catalog received all the data from the index. It can not add or remove
+data, it can only ```get`` data through queries from the index. A query
+acts like a search and is really fast.
+
+### Provider
+```The provider is not yet done```
+The provider acts similar to the catalog with the difference that it does
+not search but query the whole index and can give you results like a
+```GraphQL``` query.
 
 ## Usage
 
-### Initialize
+### NDXR
 
+#### Initialize
+First you need to import Ndxr.
+Then you create a new Ndxr instance and pass it your initial data.
+This has to be an array with object of your data.
 ```Javascript
-import Catalog from "ndxr"
+import Ndxr from "ndxr"
 
-let catalog = new Catalog()
+let index = new Ndxr([{}])
 ```
 
-### Index Data
-
-You can pass a list of Objects on the initialisation and it will be indexed right away.
+#### .add()
+This lets you add data to your index.
+.add() receives either a single object or an array of objects
+that should be added.
 ```Javascript
-let catalog = new Catalog([{},{}])
+index.add({})
+
+index.add([{},{}])
 ```
 
-You can also add objects to an existing catalog
-```Javascript
-catalog.add({})
-```
-or
-```Javascript
-catalog.add([{},{}])
-```
+#### .remove()
+This lets your remove data from your index.
+Whenever you make a query with the catalog you will receive a
+```indexId``` for each object you receive. This is the id of the datanode
+in the index.
 
-### Query Data
+To remove data from you index you have to pass one indexId or
+an array of indexIds to the .remove() method.
 
-You can query the catalog by passing an object or a number to the get function.
-If you pass an object the catalog will search for matching objects in the index.
-If you pass a number you will receive the object with the given catalog id.
-
-Imagine we have already indexed this data:
 ```Javascript
-[
-    {
-        name: "Alex",
-        age: 29,
-        gender: "male",
-        cameras : [
-            {
-                brand: "Canon",
-                name: "EOS 5D Mk 2",
-                megapixels: 22
-            },
-            {
-                brand: "Sony",
-                name: "Alpha 7R Mk 2",
-                megapixels: 40
-            }
-        ]
-    },
-    {
-        name: "Tom",
-        age: 35,
-        gender: "male",
-        cameras: [
-            {
-                brand: "Canon",
-                name: "EOS 550D",
-                megapixel: 16
-            }
-        ]
-    },
-    ...
-]
+index.remove(0)
+
+index.remove([0,1,2])
 ```
 
-Now we can make a query on that data like:
+
+### Catalog
+
+#### Initialize
+The catalog module provides a only class method that are purely functional.
+So you can either do a query right there through a class method like:
+
 ```Javascript
-catalog.get({
-    name: "Alex"
-})
+import {Catalog} from "ndxr"
+
+let result = Catalog.get(getter, indexInstance)
 ```
 
-This will simply give you the first Object.
+Or you can build a ```LinkedCatalog``` like:
 
-Lets search for object with contain Canon cameras
 ```Javascript
-catalog.get({
-    cameras: {
-        brand: "Canon"
+import {Catalog} from "ndxr"
+
+let catalog = Catalog.buildCatalog(indexInstance)
+let result = catalog.get(getter)
+```
+
+#### Catalog.buildCatalog(indexInstance)
+This method receives an instance of ```Ndxr``` and returns a new instance
+of a ```LinkedCatalog``` which supports only the ```.get()``` method,
+but you don't have to care about the index.
+
+```Javascript
+import {Catalog} from "ndxr"
+
+let catalog = Catalog.buildCatalog(indexInstance)
+```
+
+#### Catalog.get(getter, indexInstance)
+This method receives a getter object and an instance of Ndxr.
+Depending on the getter it will return an array of objects that
+match the getter. If nothing matches the getter it returns ```undefined```
+
+```Javascript
+import {Catalog} from "ndxr"
+
+let catalog = Catalog.get({} ,indexInstance)
+```
+
+##### Getter Object
+With the getter object you can specify your search in the index.
+You can search in the structure of your indexed data objects.
+
+For the following examples we imagine to have this data indexes:
+
+```Javascript
+let persons = [{
+    firstname: 'Alex',
+    lastname: 'Mader',
+    cars: [{
+        brand: "Audi",
+        model: "A4",
+        built: 2008
+    },{
+        brand: "Volkswagen",
+        model: "Passat",
+        built: 2010
+    }]
+},{
+    firstname: 'Thomas',
+    lastname: 'Eder',
+    cars: [{
+        brand: "Renault",
+        model: "Clio",
+        built: 1999
+    },{
+        brand: "Seat",
+        model: "Leon",
+        built: 2014
+    }]
+}]
+
+let index = new Ndxr(persons)
+```
+
+###### Simple attribute getter:
+```Javasript
+let getter = {
+    firstname: "Alex"
+}
+let results = Catalog.get(getter, index)
+```
+Gives you all persons with the firstname ```Alex```
+
+###### Multiple attribute getter:
+```Javasript
+let getter = {
+    firstname: ["Alex","Thomas"]
+}
+let results = Catalog.get(getter, index)
+```
+Gives you all persons with the firstname ```Alex``` or ```Thomas```
+
+###### Nested attribute getter:
+```Javasript
+let getter = {
+    cars: {
+        brand: "Audi"
     }
-})
+}
+let results = Catalog.get(getter, index)
 ```
+Gives you all persons with a car of the brand ```Audi```
 
-This will give you Alex and Tom.
-
-What if we want all males that have an age above 30:
-```Javascript
-catalog.get({
-    gender: "male",
-    age: function(value){ return value > 30 }
-})
+###### Function getter
+```Javasript
+let getter = {
+    cars: {
+        built: (value) => {
+            return value >= 2010
+        }
+    }
+}
+let results = Catalog.get(getter, index)
 ```
+Gives you all persons with a car that's built year is at least ```2010```
 
-This will give you Tom.
+###### Combined getter
+Of course you can combine your getter object in any given way
+```Javasript
+let getter = {
+    fistname: (value) => {
+        return value.length > 4
+    }
+    cars: {
+        built: (value) => {
+            return value >= 2010
+        },
+        brand: ['Renault','Peugeot']
+    }
+}
+let results = Catalog.get(getter, index)
+```
+Gives you all people with a firstname longer than 4 character,
+a car that's built year is at least 2010 and a car
+that's brand is Renault or Peugeot.
 
-You see you can combine this in any way and nested as deep as you want.
-Even with deep nested objects it will be lightning fast because everything is indexed and we just perform a quick lookup.
+
+##### LinkedCatalog.get(getter)
+This method works exactly like ```Catalog.get()```,
+but you don't have to worry about passing the index,
+because the Catalog is already linked.
