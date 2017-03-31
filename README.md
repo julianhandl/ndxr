@@ -25,12 +25,6 @@ The catalog received all the data from the index. It can not add or remove
 data, it can only ```get`` data through queries from the index. A query
 acts like a search and is really fast.
 
-### Provider
-```The provider is not yet done```
-The provider acts similar to the catalog with the difference that it does
-not search but query the whole index and can give you results like a
-```GraphQL``` query.
-
 ## Usage
 
 ### NDXR
