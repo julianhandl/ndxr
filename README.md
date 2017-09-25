@@ -6,7 +6,7 @@ First we start with the installation.
 
 ## Install
 
-### npm
+### npm - not yet supported 
 ```npm install ndxr```
 
 ### file download
@@ -34,7 +34,7 @@ First you need to import Ndxr.
 Then you create a new Ndxr instance and pass it your initial data.
 This has to be an array with object of your data.
 ```Javascript
-import Ndxr from "ndxr"
+import Ndxr from "ndxr.js"
 
 let index = new Ndxr([{}])
 ```
