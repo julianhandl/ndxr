@@ -72,7 +72,7 @@ The catalog module provides a only class method that are purely functional.
 So you can either do a query right there through a class method like:
 
 ```Javascript
-import {Catalog} from "ndxr"
+import Catalog from "catalog.js"
 
 let result = Catalog.get(getter, indexInstance)
 ```
