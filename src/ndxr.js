@@ -184,4 +184,4 @@ class Ndxr {
     }
 }
 
-module.exports = Ndxr
+exports.default = Ndxr

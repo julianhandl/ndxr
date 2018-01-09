@@ -1,4 +1,4 @@
-var Ndxr = require("./ndxr.js")
+var Ndxr = require("./ndxr.js").default
 
 class LinkedCatalog{
     constructor(ndxrInstance){
@@ -122,4 +122,6 @@ class Catalog{
     }
 }
 
-module.exports = Catalog
+exports.default = Catalog
+exports.Catalog = Catalog
+exports.LinkedCatalog = LinkedCatalog

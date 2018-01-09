@@ -1,12 +1,10 @@
 var assert = require('assert')
 var testData = require('./testData')
-var Ndxr = require('../src/ndxr')
-var Catalog = require('../src/catalog')
-//var Provider = require('../src/provider')
+var Ndxr = require('../src/ndxr').default
+var Catalog = require('../src/catalog').default
 
 var index = new Ndxr(testData)
 var cat = Catalog.buildCatalog(index)
-//var provider = Provider.buildProvider(index)
 
 describe('Catalog', function () {
     describe('#buildCatalog()', function () {
@@ -39,7 +37,7 @@ describe('Catalog', function () {
                 assert.equal("Alex", result[0].firstname)
                 assert.equal("Thomas", result[1].firstname)
             })
-            it('should return array of 3 object when two entries match', function() {
+            it('should return array of 3 object when three entries match', function() {
                 var result = cat.get({
                     firstname: ['Alex','Thomas','Markus'],
                     cars: { brand: ['Volkswagen','Renault','Peugeot']}
