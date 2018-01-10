@@ -1,4 +1,4 @@
-var Ndxr = require("./src/ndxr.js")
+var Ndxr = require("./src/ndxr.js").default
 var Catalog = require("./src/catalog.js").Catalog
 var LinkedCatalog = require("./src/catalog.js").LinkedCatalog
 
